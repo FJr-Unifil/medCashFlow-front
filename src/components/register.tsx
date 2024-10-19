@@ -44,7 +44,7 @@ function Register() {
     resolver: zodResolver(registerForm),
     mode: 'onBlur',
   })
-  
+
   const [isPending, setIsPending] = useState(false)
   const navigate = useNavigate()
 
@@ -54,7 +54,7 @@ function Register() {
     try {
       const responseData = await registerClinic(data)
       console.log(responseData)
-      navigate('/success')
+      navigate('/')
     } catch (err) {
       console.log(err)
     } finally {
