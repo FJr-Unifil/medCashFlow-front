@@ -11,14 +11,20 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 const loginForm = z.object({
   email: string().email('Insira um email válido'),
-  password: string(),
+  password: string().min(1, 'Insira sua senha'),
 })
 
 type LoginForm = z.infer<typeof loginForm>
 
 function Login() {
-  const { register, handleSubmit, formState } = useForm<LoginForm>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<LoginForm>({
     resolver: zodResolver(loginForm),
+    mode: 'onBlur',
   })
 
   const [isPending, setIsPending] = useState(false)
@@ -27,10 +33,31 @@ function Login() {
   const handleLogin = async (data: LoginForm) => {
     setIsPending(true)
 
-    const responseData = await authenticate(data)
-
-    if (responseData) {
+    try {
+      const responseData = await authenticate(data)
+      console.log(responseData)
       navigate('/success')
+    } catch (err) {
+      console.log(err)
+      if (err instanceof Error) {
+        console.log(err)
+        if (err.message.includes('404')) {
+          setError('email', {
+            type: 'manual',
+            message: 'Usuário não encontrado',
+          })
+        } else {
+          setError('email', {
+            type: 'manual',
+            message: 'Email/Senha inválidos',
+          })
+          setError('password', {
+            type: 'manual',
+            message: 'Email/senha inválidos',
+          })
+        }
+      }
+    } finally {
       setIsPending(false)
     }
   }
@@ -54,12 +81,12 @@ function Login() {
           icon={
             <Mail
               className={`text-gray-500 w-4 absolute left-2 top-1/2 bottom-1/2 -translate-y-1/2 ${
-                formState.errors.email && 'text-red-600'
+                errors.email && 'text-red-600'
               }`}
             />
           }
           placeholder="email@exemplo.com"
-          error={formState.errors.email?.message}
+          error={errors.email?.message}
           {...register('email')}
         />
         <Input
@@ -69,12 +96,12 @@ function Login() {
           icon={
             <Lock
               className={`text-gray-500 w-4 absolute left-2 top-1/2 bottom-1/2 -translate-y-1/2 ${
-                formState.errors.password && 'text-red-600'
+                errors.password && 'text-red-600'
               }`}
             />
           }
           placeholder="********"
-          error={formState.errors.password?.message}
+          error={errors.password?.message}
           {...register('password')}
         />
         {!isPending ? (

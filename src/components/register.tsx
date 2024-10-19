@@ -12,12 +12,21 @@ import { zodResolver } from '@hookform/resolvers/zod'
 const registerForm = z.object({
   clinic: object({
     name: string().min(5, 'Digite a razão social da sua clínica'),
-    cnpj: string().length(14, 'CNPJ incompleto'),
-    phone: string().length(10, 'Telefone incompleto'),
+    cnpj: string()
+      .min(1, 'Informe seu CNPJ')
+      .transform(val => val.replace(/\D/g, ''))
+      .refine(val => val.length === 14, 'CNPJ incompleto'),
+    phone: string()
+      .min(1, 'Informe seu telefone')
+      .transform(val => val.replace(/\D/g, ''))
+      .refine(val => val.length === 10, 'Telefone incompleto'),
   }),
   manager: object({
     name: string().min(5, 'Digite seu nome'),
-    cpf: string().length(11, 'CPF incompleto'),
+    cpf: string()
+      .min(1, 'Informe seu CPF')
+      .transform(val => val.replace(/\D/g, ''))
+      .refine(val => val.length === 11, 'CPF incompleto'),
     email: string().email('Email inválido'),
     password: string().min(8, 'A senha deve ter mais que 8 caracteres'),
   }),
@@ -26,21 +35,30 @@ const registerForm = z.object({
 type RegisterForm = z.infer<typeof registerForm>
 
 function Register() {
-  const { register, handleSubmit, formState, control } = useForm<RegisterForm>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<RegisterForm>({
     resolver: zodResolver(registerForm),
+    mode: 'onBlur',
   })
-
+  
   const [isPending, setIsPending] = useState(false)
   const navigate = useNavigate()
 
   const handleRegister = async (data: RegisterForm) => {
     setIsPending(true)
 
-    const responseData = await registerClinic(data)
-
-    if (responseData) {
+    try {
+      const responseData = await registerClinic(data)
+      console.log(responseData)
+      navigate('/success')
+    } catch (err) {
+      console.log(err)
+    } finally {
       setIsPending(false)
-      navigate('/')
     }
   }
 
@@ -67,12 +85,12 @@ function Register() {
           icon={
             <Hospital
               className={`text-gray-500 w-4 absolute left-2 top-1/2 bottom-1/2 -translate-y-1/2 ${
-                formState.errors.clinic?.name && 'text-red-600'
+                errors.clinic?.name && 'text-red-600'
               }`}
             />
           }
           placeholder="Clínica X"
-          error={formState.errors.clinic?.name?.message}
+          error={errors.clinic?.name?.message}
           {...register('clinic.name')}
         />
         <Controller
@@ -86,18 +104,14 @@ function Register() {
               icon={
                 <Hospital
                   className={`text-gray-500 w-4 absolute left-2 top-1/2 bottom-1/2 -translate-y-1/2 ${
-                    formState.errors.clinic?.cnpj ? 'text-red-600' : ''
+                    errors.clinic?.cnpj ? 'text-red-600' : ''
                   }`}
                 />
               }
               placeholder="99.999.999/9999-99"
               mask="99.999.999/9999-99"
-              error={formState.errors.clinic?.cnpj?.message}
+              error={errors.clinic?.cnpj?.message}
               {...field}
-              onChange={event => {
-                const numericValue = event.target.value.replace(/\D/g, '')
-                field.onChange(numericValue)
-              }}
             />
           )}
         />
@@ -112,18 +126,14 @@ function Register() {
               icon={
                 <Phone
                   className={`text-gray-500 w-4 absolute left-2 top-1/2 bottom-1/2 -translate-y-1/2 ${
-                    formState.errors.clinic?.phone && 'text-red-600'
+                    errors.clinic?.phone && 'text-red-600'
                   }`}
                 />
               }
               placeholder="(99) 9999-9999"
               mask="(99) 9999-9999"
-              error={formState.errors.clinic?.phone?.message}
+              error={errors.clinic?.phone?.message}
               {...field}
-              onChange={event => {
-                const numericValue = event.target.value.replace(/\D/g, '')
-                field.onChange(numericValue)
-              }}
             />
           )}
         />
@@ -138,12 +148,12 @@ function Register() {
           icon={
             <User
               className={`text-gray-500 w-4 absolute left-2 top-1/2 bottom-1/2 -translate-y-1/2 ${
-                formState.errors.manager?.name && 'text-red-600'
+                errors.manager?.name && 'text-red-600'
               }`}
             />
           }
           placeholder="John Doe"
-          error={formState.errors.manager?.name?.message}
+          error={errors.manager?.name?.message}
           {...register('manager.name')}
         />
         <Controller
@@ -157,18 +167,14 @@ function Register() {
               icon={
                 <IdCard
                   className={`text-gray-500 w-4 absolute left-2 top-1/2 bottom-1/2 -translate-y-1/2 ${
-                    formState.errors.manager?.cpf && 'text-red-600'
+                    errors.manager?.cpf && 'text-red-600'
                   }`}
                 />
               }
               placeholder="999.999.999-99"
               mask="999.999.999-99"
-              error={formState.errors.manager?.cpf?.message}
+              error={errors.manager?.cpf?.message}
               {...field}
-              onChange={event => {
-                const numericValue = event.target.value.replace(/\D/g, '')
-                field.onChange(numericValue)
-              }}
             />
           )}
         />
@@ -179,12 +185,12 @@ function Register() {
           icon={
             <Mail
               className={`text-gray-500 w-4 absolute left-2 top-1/2 bottom-1/2 -translate-y-1/2 ${
-                formState.errors.manager?.email && 'text-red-600'
+                errors.manager?.email && 'text-red-600'
               }`}
             />
           }
           placeholder="email@exemplo.com"
-          error={formState.errors.manager?.email?.message}
+          error={errors.manager?.email?.message}
           {...register('manager.email')}
         />
         <Input
@@ -194,12 +200,12 @@ function Register() {
           icon={
             <Lock
               className={`text-gray-500 w-4 absolute left-2 top-1/2 bottom-1/2 -translate-y-1/2 ${
-                formState.errors.manager?.password && 'text-red-600'
+                errors.manager?.password && 'text-red-600'
               }`}
             />
           }
           placeholder="********"
-          error={formState.errors.manager?.password?.message}
+          error={errors.manager?.password?.message}
           {...register('manager.password')}
         />
         {!isPending ? (
