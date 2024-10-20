@@ -13,7 +13,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, type, id, icon, mask, error, ...props }, ref) => {
     return (
-      <div className="input-wrapper flex flex-col gap-2">
+      <div className="input-wrapper flex flex-col gap-2 min-w-80">
         <label htmlFor={id} className="uppercase font-bold">
           {label}
         </label>
