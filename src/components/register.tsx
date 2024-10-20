@@ -11,24 +11,40 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 const registerForm = z.object({
   clinic: object({
-    name: string().min(5, 'Digite a razão social da sua clínica'),
-    cnpj: string()
-      .min(1, 'Informe seu CNPJ')
-      .transform(val => val.replace(/\D/g, ''))
-      .refine(val => val.length === 14, 'CNPJ incompleto'),
-    phone: string()
-      .min(1, 'Informe seu telefone')
-      .transform(val => val.replace(/\D/g, ''))
-      .refine(val => val.length === 10, 'Telefone incompleto'),
+    name: string()
+      .min(1, 'Razão Social é obrigatório')
+      .min(2, 'Mínimo de 2 caracteres')
+      .max(60, 'A razão social não pode ter mais que 60 caracteres'),
+    cnpj: z.preprocess(
+      value => (typeof value === 'string' ? value : ''),
+      string()
+        .min(1, 'CNPJ é obrigatório')
+        .transform(val => val.replace(/\D/g, ''))
+        .refine(val => val.length === 14, 'CNPJ incompleto')
+    ),
+    phone: z.preprocess(
+      value => (typeof value === 'string' ? value : ''),
+      string()
+        .min(1, 'Telefone é obrigatório')
+        .transform(val => val.replace(/\D/g, ''))
+        .refine(val => val.length === 10, 'Telefone incompleto')
+    ),
   }),
   manager: object({
-    name: string().min(5, 'Digite seu nome'),
-    cpf: string()
-      .min(1, 'Informe seu CPF')
-      .transform(val => val.replace(/\D/g, ''))
-      .refine(val => val.length === 11, 'CPF incompleto'),
-    email: string().email('Email inválido'),
-    password: string().min(8, 'A senha deve ter mais que 8 caracteres'),
+    name: string()
+      .min(1, 'Nome é obrigatório')
+      .min(5, 'Mínimo de 5 caracteres'),
+    cpf: z.preprocess(
+      value => (typeof value === 'string' ? value : ''),
+      string()
+        .min(1, 'CPF é obrigatório')
+        .transform(val => val.replace(/\D/g, ''))
+        .refine(val => val.length === 11, 'CPF incompleto')
+    ),
+    email: string().min(1, 'Email é obrigatório').email('Email inválido'),
+    password: string()
+      .min(1, 'Senha é obrigatório')
+      .min(8, 'A senha deve ter mais que 8 caracteres'),
   }),
 })
 
@@ -44,6 +60,8 @@ function Register() {
     resolver: zodResolver(registerForm),
     mode: 'onBlur',
   })
+
+  console.log(errors)
 
   const [isPending, setIsPending] = useState(false)
   const navigate = useNavigate()
