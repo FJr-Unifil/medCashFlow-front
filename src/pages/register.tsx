@@ -49,7 +49,8 @@ const registerForm = z.object({
     password: z
       .string()
       .min(1, 'Senha é obrigatório')
-      .min(8, 'A senha deve ter mais que 8 caracteres'),
+      .min(8, 'A senha deve ter ao menos 8 caracteres')
+      .max(100, 'A senha deve ter no máximo 100 caracteres'),
   }),
 })
 
@@ -161,7 +162,7 @@ export function Register() {
             state={errors.manager?.cpf ? 'error' : undefined}
           />
           <Input
-            type="number"
+            type="text"
             placeholder="999.999.999-99"
             state={errors.manager?.cpf ? 'error' : undefined}
             {...register('manager.cpf')}
@@ -210,7 +211,7 @@ export function Register() {
       </button>
       <p className="text-sm -mt-2 text-center">
         Já possui uma conta?{' '}
-        <Link to="/2" className="underline text-green-700 font-bold">
+        <Link to="/" className="underline text-green-700 font-bold">
           Faça o login
         </Link>
       </p>
