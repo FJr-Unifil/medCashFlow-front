@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { authenticate } from '../http/authenticate'
 import { textMask } from '../utils/textMask'
 import Input from '../components/input'
+import { emailMask } from '../utils/emailMask'
 
 const loginForm = z.object({
   email: z.string().min(1, 'Insira seu email').email('Insira um email válido'),
@@ -26,7 +27,7 @@ export function Login() {
     resolver: zodResolver(loginForm),
     mode: 'onBlur',
   })
-  
+
   const navigate = useNavigate()
 
   const handleLogin = async (data: LoginForm) => {
@@ -68,11 +69,11 @@ export function Login() {
         >
           <Icon icon={Mail} state={errors.email ? 'error' : undefined} />
           <Input
-            type="email"
+            type="text"
             placeholder="email@email.com"
             state={errors.email ? 'error' : undefined}
             {...register('email')}
-            maskFn={textMask}
+            maskFn={emailMask}
           />
         </Form.Item>
         <Form.Item

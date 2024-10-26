@@ -11,6 +11,7 @@ import { cpfMask } from '../utils/cpfMask'
 import { cnpjMask } from '../utils/cnpjMask'
 import { phoneMask } from '../utils/phoneMask'
 import { textMask } from '../utils/textMask'
+import { emailMask } from '../utils/emailMask'
 
 const registerForm = z.object({
   clinic: z.object({
@@ -192,11 +193,11 @@ export function Register() {
             state={errors.manager?.email ? 'error' : undefined}
           />
           <Input
-            type="email"
+            type="text"
             placeholder="email@email.com"
             state={errors.manager?.email ? 'error' : undefined}
             {...register('manager.email')}
-            maskFn={textMask}
+            maskFn={emailMask}
           />
         </Form.Item>
         <Form.Item
