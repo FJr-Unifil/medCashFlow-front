@@ -6,7 +6,8 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { authenticate } from '../http/authenticate'
-import Input2 from '../components/input'
+import { textMask } from '../utils/textMask'
+import Input from '../components/input'
 
 const loginForm = z.object({
   email: z.string().min(1, 'Insira seu email').email('Insira um email válido'),
@@ -25,9 +26,8 @@ export function Login() {
     resolver: zodResolver(loginForm),
     mode: 'onBlur',
   })
+  
   const navigate = useNavigate()
-
-  console.log(errors)
 
   const handleLogin = async (data: LoginForm) => {
     try {
@@ -67,11 +67,12 @@ export function Login() {
           state={errors.email ? 'error' : undefined}
         >
           <Icon icon={Mail} state={errors.email ? 'error' : undefined} />
-          <Input2
+          <Input
             type="email"
             placeholder="email@email.com"
             state={errors.email ? 'error' : undefined}
             {...register('email')}
+            maskFn={textMask}
           />
         </Form.Item>
         <Form.Item
@@ -81,11 +82,12 @@ export function Login() {
           state={errors.password ? 'error' : undefined}
         >
           <Icon icon={Lock} state={errors.password ? 'error' : undefined} />
-          <Input2
+          <Input
             type="password"
             placeholder="********"
             state={errors.password ? 'error' : undefined}
             {...register('password')}
+            maskFn={textMask}
           />
         </Form.Item>
       </Form.Group>

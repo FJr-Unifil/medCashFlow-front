@@ -7,6 +7,10 @@ import { Form } from '../components/form'
 import { Icon } from '../components/icon'
 import { Hospital, IdCard, Lock, Mail, Phone } from 'lucide-react'
 import Input from '../components/input'
+import { cpfMask } from '../utils/cpfMask'
+import { cnpjMask } from '../utils/cnpjMask'
+import { phoneMask } from '../utils/phoneMask'
+import { textMask } from '../utils/textMask'
 
 const registerForm = z.object({
   clinic: z.object({
@@ -96,6 +100,8 @@ export function Register() {
             placeholder="Clínica Pontello LTDA"
             state={errors.clinic?.name ? 'error' : undefined}
             {...register('clinic.name')}
+            maskFn={textMask}
+            maxLength={60}
           />
         </Form.Item>
         <Form.Item
@@ -113,6 +119,8 @@ export function Register() {
             type="text"
             state={errors.clinic?.cnpj ? 'error' : undefined}
             {...register('clinic.cnpj')}
+            maskFn={cnpjMask}
+            maxLength={18}
           />
         </Form.Item>
         <Form.Item
@@ -130,6 +138,8 @@ export function Register() {
             placeholder="(43) 4002-8922"
             state={errors.clinic?.phone ? 'error' : undefined}
             {...register('clinic.phone')}
+            maskFn={phoneMask}
+            maxLength={14}
           />
         </Form.Item>
       </Form.Group>
@@ -149,6 +159,7 @@ export function Register() {
             placeholder="John Doe"
             state={errors.manager?.name ? 'error' : undefined}
             {...register('manager.name')}
+            maskFn={textMask}
           />
         </Form.Item>
         <Form.Item
@@ -166,6 +177,8 @@ export function Register() {
             placeholder="999.999.999-99"
             state={errors.manager?.cpf ? 'error' : undefined}
             {...register('manager.cpf')}
+            maskFn={cpfMask}
+            maxLength={14}
           />
         </Form.Item>
         <Form.Item
@@ -183,6 +196,7 @@ export function Register() {
             placeholder="email@email.com"
             state={errors.manager?.email ? 'error' : undefined}
             {...register('manager.email')}
+            maskFn={textMask}
           />
         </Form.Item>
         <Form.Item
@@ -200,6 +214,8 @@ export function Register() {
             placeholder="********"
             state={errors.manager?.password ? 'error' : undefined}
             {...register('manager.password')}
+            maskFn={textMask}
+            maxLength={100}
           />
         </Form.Item>
       </Form.Group>
