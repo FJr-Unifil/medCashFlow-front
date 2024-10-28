@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 const formItem = tv({
-  base: 'relative rounded-lg bg-gray-200 hover:scale-110 focus-within:ring-2 transition',
+  base: 'flex justify-center items-center gap-2 px-2 rounded-lg bg-gray-200 hover:scale-110 focus-within:ring-2 transition',
   variants: {
     state: {
       default: 'focus-within:ring-gray-400',

@@ -2,7 +2,7 @@ import { forwardRef, type ComponentProps } from 'react'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 const input = tv({
-  base: 'px-8 py-2 transition rounded-lg w-full focus-visible:outline-none bg-transparent',
+  base: 'py-2 transition rounded-lg w-full focus-visible:outline-none bg-transparent',
   variants: {
     state: {
       default: 'placeholder-gray-500',
