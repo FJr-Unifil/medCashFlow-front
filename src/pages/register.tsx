@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { registerClinic } from '../http/register'
@@ -12,6 +12,9 @@ import { cnpjMask } from '../utils/cnpjMask'
 import { phoneMask } from '../utils/phoneMask'
 import { textMask } from '../utils/textMask'
 import { emailMask } from '../utils/emailMask'
+import { Button } from '../components/button'
+import { BlobsDecoration } from '../components/blobsDecoration'
+import { useState } from 'react'
 
 const registerForm = z.object({
   clinic: z.object({
@@ -42,6 +45,10 @@ const registerForm = z.object({
       .string()
       .min(1, 'Nome é obrigatório')
       .min(5, 'Mínimo de 5 caracteres'),
+    last_name: z
+      .string()
+      .min(1, 'Nome é obrigatório')
+      .min(5, 'Mínimo de 5 caracteres'),
     cpf: z.preprocess(
       value => (typeof value === 'string' ? value : ''),
       z
@@ -62,15 +69,17 @@ const registerForm = z.object({
 type RegisterForm = z.infer<typeof registerForm>
 
 export function Register() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterForm>({
+  const methods = useForm<RegisterForm>({
     resolver: zodResolver(registerForm),
-    mode: 'onBlur',
+    mode: 'onSubmit',
   })
 
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods
+
+  const [step, setStep] = useState(1)
   const navigate = useNavigate()
 
   const handleRegister = async (data: RegisterForm) => {
@@ -83,9 +92,10 @@ export function Register() {
     }
   }
 
-  return (
-    <Form.Root onSubmit={handleSubmit(handleRegister)}>
-      <Form.Group title="Clínica">
+  const FirstStep = () => {
+    const { register } = useFormContext()
+    return (
+      <Form.Group title="Detalhes da Clínica:">
         <Form.Item
           label="Razão Social"
           inputName="clinic.name"
@@ -144,7 +154,13 @@ export function Register() {
           />
         </Form.Item>
       </Form.Group>
-      <Form.Group title="Gestor">
+    )
+  }
+
+  const SecondStep = () => {
+    const { register } = useFormContext()
+    return (
+      <Form.Group title="Detalhes do Gestor:">
         <Form.Item
           label="Nome"
           inputName="manager.name"
@@ -159,6 +175,24 @@ export function Register() {
             type="text"
             placeholder="John Doe"
             state={errors.manager?.name ? 'error' : undefined}
+            {...register('manager.name')}
+            maskFn={textMask}
+          />
+        </Form.Item>
+        <Form.Item
+          label="Sobrenome"
+          inputName="manager.last_name"
+          error={errors.manager?.last_name?.message}
+          state={errors.manager?.last_name ? 'error' : undefined}
+        >
+          <Icon
+            icon={IdCard}
+            state={errors.manager?.last_name ? 'error' : undefined}
+          />
+          <Input
+            type="text"
+            placeholder="John Doe"
+            state={errors.manager?.last_name ? 'error' : undefined}
             {...register('manager.name')}
             maskFn={textMask}
           />
@@ -182,6 +216,14 @@ export function Register() {
             maxLength={14}
           />
         </Form.Item>
+      </Form.Group>
+    )
+  }
+
+  const ThirdStep = () => {
+    const { register } = useFormContext()
+    return (
+      <Form.Group title="Detalhes do Acesso">
         <Form.Item
           label="Email"
           inputName="manager.email"
@@ -220,18 +262,49 @@ export function Register() {
           />
         </Form.Item>
       </Form.Group>
-      <button
-        type="submit"
-        className="uppercase font-bold text-neutral-200 bg-green-600 mt-8 px-4 py-2 rounded-lg hover:scale-110 hover:bg-green-700 transition"
-      >
-        Registrar
-      </button>
-      <p className="text-sm -mt-2 text-center">
-        Já possui uma conta?{' '}
-        <Link to="/" className="underline text-green-700 font-bold">
-          Faça o login
-        </Link>
-      </p>
-    </Form.Root>
+    )
+  }
+
+  const onNext = () => {
+    setStep(currentStep => currentStep + 1)
+  }
+  const onBack = () => setStep(currentStep => currentStep - 1)
+
+  return (
+    <div className="min-h-screen grid place-content-center bg-gray-200 py-5">
+      <BlobsDecoration />
+      <FormProvider {...methods}>
+        <Form.Root onSubmit={handleSubmit(handleRegister)}>
+          <Form.Title
+            title="Seja bem-vindo 👋"
+            subtitle="faça seu cadastro e aproveite"
+          />
+          <Form.Steps numberOfSteps={3} currentStep={step} />
+          {step === 1 && <FirstStep />}
+          {step === 2 && <SecondStep />}
+          {step === 3 && <ThirdStep />}
+          <Form.Actions>
+            {step < 3 ? (
+              <Button type="button" onClick={onNext}>
+                Ir para próxima etapa
+              </Button>
+            ) : (
+              <Button type="submit">Finalizar Cadastro</Button>
+            )}
+            {step > 1 && (
+              <Button type="button" styling="outline" onClick={onBack}>
+                Voltar para etapa anterior
+              </Button>
+            )}
+          </Form.Actions>
+          <p className="text-sm -mt-2 text-center">
+            Já possui uma conta?{' '}
+            <Link to="/" className="underline text-green-700 font-bold">
+              Faça o login
+            </Link>
+          </p>
+        </Form.Root>
+      </FormProvider>
+    </div>
   )
 }

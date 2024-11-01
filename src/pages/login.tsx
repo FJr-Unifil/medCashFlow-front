@@ -1,4 +1,4 @@
-import { Mail, Lock } from 'lucide-react'
+import { Mail, Lock, LogIn } from 'lucide-react'
 import { Form } from '../components/form'
 import { Icon } from '../components/icon'
 import { Link, useNavigate } from 'react-router-dom'
@@ -9,6 +9,8 @@ import { authenticate } from '../http/authenticate'
 import { textMask } from '../utils/textMask'
 import Input from '../components/input'
 import { emailMask } from '../utils/emailMask'
+import { BlobsDecoration } from '../components/blobsDecoration'
+import { Button } from '../components/button'
 
 const loginForm = z.object({
   email: z.string().min(1, 'Insira seu email').email('Insira um email válido'),
@@ -59,51 +61,52 @@ export function Login() {
   }
 
   return (
-    <Form.Root onSubmit={handleSubmit(handleLogin)}>
-      <Form.Group>
-        <Form.Item
-          label="email"
-          inputName="email"
-          error={errors.email?.message}
-          state={errors.email ? 'error' : undefined}
-        >
-          <Icon icon={Mail} state={errors.email ? 'error' : undefined} />
-          <Input
-            type="text"
-            placeholder="email@email.com"
+    <div className="min-h-screen grid place-content-center bg-gray-200 py-10">
+      <BlobsDecoration />
+      <Form.Root onSubmit={handleSubmit(handleLogin)}>
+        <Form.Group>
+          <Form.Item
+            label="email"
+            inputName="email"
+            error={errors.email?.message}
             state={errors.email ? 'error' : undefined}
-            {...register('email')}
-            maskFn={emailMask}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Senha"
-          inputName="password"
-          error={errors.password?.message}
-          state={errors.password ? 'error' : undefined}
-        >
-          <Icon icon={Lock} state={errors.password ? 'error' : undefined} />
-          <Input
-            type="password"
-            placeholder="********"
+          >
+            <Icon icon={Mail} state={errors.email ? 'error' : undefined} />
+            <Input
+              type="text"
+              placeholder="email@email.com"
+              state={errors.email ? 'error' : undefined}
+              {...register('email')}
+              maskFn={emailMask}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Senha"
+            inputName="password"
+            error={errors.password?.message}
             state={errors.password ? 'error' : undefined}
-            {...register('password')}
-            maskFn={textMask}
-          />
-        </Form.Item>
-      </Form.Group>
-      <button
-        type="submit"
-        className="uppercase font-bold text-neutral-200 bg-green-600 mt-8 px-4 py-2 rounded-lg hover:scale-110 hover:bg-green-700 transition"
-      >
-        Fazer Login
-      </button>
-      <p className="text-sm -mt-6 text-center">
-        Não possui conta?{' '}
-        <Link to="/register" className="underline text-green-700 font-bold">
-          Faça o cadastro
-        </Link>
-      </p>
-    </Form.Root>
+          >
+            <Icon icon={Lock} state={errors.password ? 'error' : undefined} />
+            <Input
+              type="password"
+              placeholder="********"
+              state={errors.password ? 'error' : undefined}
+              {...register('password')}
+              maskFn={textMask}
+            />
+          </Form.Item>
+        </Form.Group>
+        <Button type="submit">
+          Fazer Login
+          <LogIn />
+        </Button>
+        <p className="text-sm -mt-6 text-center">
+          Não possui conta?{' '}
+          <Link to="/register" className="underline text-green-700 font-bold">
+            Faça o cadastro
+          </Link>
+        </p>
+      </Form.Root>
+    </div>
   )
 }
