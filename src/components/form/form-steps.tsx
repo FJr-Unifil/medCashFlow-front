@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
-import { Step } from '../step'
+import { Step } from '../steps/step'
 import { Check } from 'lucide-react'
-import { ProgressIndicator } from '../progressIndicator'
+import { ProgressIndicator } from '../steps/progressIndicator'
 import { Icon } from '../icon'
 
 type FormStepsProps = {
