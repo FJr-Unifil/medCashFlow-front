@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
-import { Step } from '../steps/step'
+import { StepIndicator } from '../steps/step-indicator'
 import { Check } from 'lucide-react'
-import { ProgressIndicator } from '../steps/progressIndicator'
+import { ProgressIndicator } from '../steps/progress-indicator'
 import { Icon } from '../icon'
 
 type FormStepsProps = {
@@ -14,19 +14,19 @@ export function FormSteps({ numberOfSteps, currentStep }: FormStepsProps) {
     <div className="flex justify-center items-center gap-1">
       {[...Array(numberOfSteps)].map((_, i) => (
         <>
-          <Step
+          <StepIndicator
             key={`step-${nanoid(4)}`}
-            style={i + 1 > currentStep ? 'future' : 'default'}
+            style={i > currentStep ? 'future' : 'default'}
           >
-            {i + 1 >= currentStep ? i + 1 : <Icon icon={Check} state="light" />}
-          </Step>
+            {i >= currentStep ? i + 1 : <Icon icon={Check} state="light" />}
+          </StepIndicator>
           {i + 1 < numberOfSteps && (
             <ProgressIndicator
               key={`progress-${nanoid(4)}`}
               style={
-                i + 1 === currentStep
+                i === currentStep
                   ? 'current'
-                  : i + 1 > currentStep
+                  : i > currentStep
                     ? 'future'
                     : 'default'
               }

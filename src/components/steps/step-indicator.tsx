@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { tv, type VariantProps } from 'tailwind-variants'
 
-const step = tv({
+const stepIndicator = tv({
   base: 'flex justify-center items-center text-xl size-[50px] rounded-lg',
   variants: {
     style: {
@@ -14,10 +14,10 @@ const step = tv({
   },
 })
 
-type StepProps = VariantProps<typeof step> & {
+type StepProps = VariantProps<typeof stepIndicator> & {
   children: string | ReactNode
 }
 
-export function Step({ children, style }: StepProps) {
-  return <div className={step({ style })}>{children}</div>
+export function StepIndicator({ children, style }: StepProps) {
+  return <div className={stepIndicator({ style })}>{children}</div>
 }
