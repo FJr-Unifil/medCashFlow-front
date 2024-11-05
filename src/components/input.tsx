@@ -34,6 +34,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         className={input({ state })}
         ref={ref}
         {...props}
+        id={props.name}
         onChange={e => handleMaskedChange(e, maskFn)}
       />
     )
