@@ -27,7 +27,7 @@ export function Login() {
     setError,
   } = useForm<LoginForm>({
     resolver: zodResolver(loginForm),
-    mode: 'onBlur',
+    mode: 'onTouched',
   })
 
   const navigate = useNavigate()

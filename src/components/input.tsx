@@ -16,18 +16,30 @@ const input = tv({
 
 type InputProps = ComponentProps<'input'> &
   VariantProps<typeof input> & {
-    maskFn: (v: string) => string
+    maskFn?: (v: string) => string
   }
 
 const handleMaskedChange = (
   e: React.ChangeEvent<HTMLInputElement>,
-  maskFn: (v: string) => string
+  maskFn?: (v: string) => string
 ) => {
-  e.target.value = maskFn(e.target.value)
+  if (maskFn) {
+    const maskedValue = maskFn(e.target.value)
+    e.target.value = maskedValue
+    const event = new Event('input', { bubbles: true })
+    e.target.dispatchEvent(event)
+  }
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ type, state, maskFn, ...props }, ref) => {
+  ({ type, state, maskFn, onChange, ...props }, ref) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      handleMaskedChange(e, maskFn)
+      if (onChange) {
+        onChange(e)
+      }
+    }
+
     return (
       <input
         type={type}
@@ -35,7 +47,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         ref={ref}
         {...props}
         id={props.name}
-        onChange={e => handleMaskedChange(e, maskFn)}
+        onChange={handleChange}
       />
     )
   }

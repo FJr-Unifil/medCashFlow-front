@@ -61,16 +61,15 @@ const registerForm = z.object({
   }),
 })
 
-type RegisterForm = z.infer<typeof registerForm>
+export type RegisterForm = z.infer<typeof registerForm>
 
 export function Register() {
   const methods = useForm<RegisterForm>({
     resolver: zodResolver(registerForm),
-    mode: 'onBlur',
+    mode: 'onTouched',
   })
 
   const [step, setStep] = useState(0)
-  const [hasError, setHasError] = useState(false)
   const navigate = useNavigate()
 
   const handleRegister = async (data: RegisterForm) => {
@@ -99,11 +98,10 @@ export function Register() {
   ]
 
   const onNext = async () => {
-    await methods.trigger(sourceSteps[step].fields)
+    const { fields } = sourceSteps[step]
+    const isValid = await methods.trigger(fields)
 
-    setHasError(Boolean(methods.formState.errors))
-
-    if (!hasError) return
+    if (!isValid) return
     setStep(currentStep => currentStep + 1)
   }
 

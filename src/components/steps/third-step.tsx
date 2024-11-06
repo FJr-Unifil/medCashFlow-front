@@ -1,47 +1,50 @@
-import { useFormContext } from 'react-hook-form'
-import { Form } from '../form'
 import { Mail, Lock } from 'lucide-react'
+import { Form } from '../form'
 import { Icon } from '../icon'
 import Input from '../input'
+import { useFormContext } from 'react-hook-form'
+import type { RegisterForm } from '../../pages/register'
 import { emailMask } from '../../utils/emailMask'
 import { textMask } from '../../utils/textMask'
 
 export const ThirdStep = () => {
-  const { register, getFieldState } = useFormContext()
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<RegisterForm>()
+
   return (
-    <Form.Group title="Detalhes do Acesso">
+    <Form.Group title="Credenciais do Gestor:">
       <Form.Item
         label="Email"
         inputName="manager.email"
-        error={getFieldState('manager.email').error?.message}
-        state={getFieldState('manager.email').error ? 'error' : undefined}
+        error={errors.manager?.email?.message}
+        state={errors.manager?.email ? 'error' : undefined}
       >
-        <Icon
-          icon={Mail}
-          state={getFieldState('manager.email').error ? 'error' : undefined}
-        />
+        <Icon icon={Mail} state={errors.manager?.email ? 'error' : undefined} />
         <Input
-          type="text"
-          placeholder="email@email.com"
-          state={getFieldState('manager.email').error ? 'error' : undefined}
+          type="email"
+          placeholder="joao.silva@example.com"
+          state={errors.manager?.email ? 'error' : undefined}
           {...register('manager.email')}
           maskFn={emailMask}
         />
       </Form.Item>
+
       <Form.Item
         label="Senha"
         inputName="manager.password"
-        error={getFieldState('manager.passsword').error?.message}
-        state={getFieldState('manager.password').error ? 'error' : undefined}
+        error={errors.manager?.password?.message}
+        state={errors.manager?.password ? 'error' : undefined}
       >
         <Icon
           icon={Lock}
-          state={getFieldState('manager.password').error ? 'error' : undefined}
+          state={errors.manager?.password ? 'error' : undefined}
         />
         <Input
           type="password"
           placeholder="********"
-          state={getFieldState('manager.password').error ? 'error' : undefined}
+          state={errors.manager?.password ? 'error' : undefined}
           {...register('manager.password')}
           maskFn={textMask}
           maxLength={100}
