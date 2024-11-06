@@ -14,7 +14,7 @@ export function FormSteps({ numberOfSteps, currentStep }: FormStepsProps) {
   return (
     <div className="flex justify-center items-center gap-1">
       {[...Array(numberOfSteps)].map((_, i) => (
-        <React.Fragment key={`step-progress-${nanoid(1)}`}>
+        <React.Fragment key={`step-progress-${nanoid(3)}`}>
           <StepIndicator style={i > currentStep ? 'future' : 'default'}>
             {i >= currentStep ? i + 1 : <Icon icon={Check} state="light" />}
           </StepIndicator>
