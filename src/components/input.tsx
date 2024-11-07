@@ -24,10 +24,7 @@ const handleMaskedChange = (
   maskFn?: (v: string) => string
 ) => {
   if (maskFn) {
-    const maskedValue = maskFn(e.target.value)
-    e.target.value = maskedValue
-    const event = new Event('input', { bubbles: true })
-    e.target.dispatchEvent(event)
+    e.target.value = maskFn(e.target.value)
   }
 }
 
