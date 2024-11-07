@@ -10,7 +10,7 @@ import { textMask } from '../../utils/textMask'
 export const ThirdStep = () => {
   const {
     register,
-    formState: { errors },
+    formState: { errors, touchedFields },
   } = useFormContext<RegisterForm>()
 
   return (
@@ -18,14 +18,33 @@ export const ThirdStep = () => {
       <Form.Item
         label="Email"
         inputName="manager.email"
-        error={errors.manager?.email?.message}
-        state={errors.manager?.email ? 'error' : undefined}
+        error={
+          touchedFields.manager?.email && errors.manager?.email
+            ? errors.manager?.email?.message
+            : undefined
+        }
+        state={
+          touchedFields.manager?.email && errors.manager?.email
+            ? 'error'
+            : undefined
+        }
       >
-        <Icon icon={Mail} state={errors.manager?.email ? 'error' : undefined} />
+        <Icon
+          icon={Mail}
+          state={
+            touchedFields.manager?.email && errors.manager?.email
+              ? 'error'
+              : undefined
+          }
+        />
         <Input
           type="email"
           placeholder="joao.silva@example.com"
-          state={errors.manager?.email ? 'error' : undefined}
+          state={
+            touchedFields.manager?.email && errors.manager?.email
+              ? 'error'
+              : undefined
+          }
           {...register('manager.email')}
           maskFn={emailMask}
         />
@@ -34,17 +53,33 @@ export const ThirdStep = () => {
       <Form.Item
         label="Senha"
         inputName="manager.password"
-        error={errors.manager?.password?.message}
-        state={errors.manager?.password ? 'error' : undefined}
+        error={
+          touchedFields.manager?.password && errors.manager?.password
+            ? errors.manager?.password?.message
+            : undefined
+        }
+        state={
+          touchedFields.manager?.password && errors.manager?.password
+            ? 'error'
+            : undefined
+        }
       >
         <Icon
           icon={Lock}
-          state={errors.manager?.password ? 'error' : undefined}
+          state={
+            touchedFields.manager?.password && errors.manager?.password
+              ? 'error'
+              : undefined
+          }
         />
         <Input
           type="password"
           placeholder="********"
-          state={errors.manager?.password ? 'error' : undefined}
+          state={
+            touchedFields.manager?.password && errors.manager?.password
+              ? 'error'
+              : undefined
+          }
           {...register('manager.password')}
           maskFn={textMask}
           maxLength={100}
