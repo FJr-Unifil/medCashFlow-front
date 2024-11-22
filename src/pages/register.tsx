@@ -97,7 +97,8 @@ export function Register() {
     },
   ]
 
-  const onNext = async () => {
+  const onNext = async (e: React.MouseEvent) => {
+    e.preventDefault()
     const { fields } = sourceSteps[step]
     const isValid = await methods.trigger(fields)
 
