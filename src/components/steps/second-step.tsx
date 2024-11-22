@@ -17,19 +17,19 @@ export const SecondStep = () => {
     <Form.Group title="Detalhes do Gestor:">
       <Form.Item
         label="Nome"
-        inputName="manager.name"
-        error={errors.manager?.name?.message}
-        state={errors.manager?.name ? 'error' : undefined}
+        inputName="manager.first_name"
+        error={errors.manager?.first_name?.message}
+        state={errors.manager?.first_name ? 'error' : undefined}
       >
         <Icon
           icon={IdCard}
-          state={errors.manager?.name ? 'error' : undefined}
+          state={errors.manager?.first_name ? 'error' : undefined}
         />
         <Input
           type="text"
           placeholder="John"
-          state={errors.manager?.name ? 'error' : undefined}
-          {...register('manager.name')}
+          state={errors.manager?.first_name ? 'error' : undefined}
+          {...register('manager.first_name')}
           maskFn={textMask}
         />
       </Form.Item>

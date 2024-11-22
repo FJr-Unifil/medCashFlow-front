@@ -36,7 +36,7 @@ const registerForm = z.object({
     ),
   }),
   manager: z.object({
-    name: z
+    first_name: z
       .string()
       .min(1, 'Nome é obrigatório')
       .min(5, 'Mínimo de 5 caracteres'),
@@ -89,7 +89,7 @@ export function Register() {
     },
     {
       component: <SecondStep />,
-      fields: ['manager.name', 'manager.last_name', 'manager.cpf'] as const,
+      fields: ['manager.first_name', 'manager.last_name', 'manager.cpf'] as const,
     },
     {
       component: <ThirdStep />,

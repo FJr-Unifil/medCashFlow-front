@@ -5,7 +5,8 @@ interface RegisterRequest {
     phone: string
   }
   manager: {
-    name: string
+    first_name: string
+    last_name: string
     cpf: string
     email: string
     password: string
@@ -14,6 +15,7 @@ interface RegisterRequest {
 
 export async function registerClinic(registerRequest: RegisterRequest) {
   try {
+    console.log(registerRequest)
     const response = await fetch('http://localhost:8080/auth/register', {
       method: 'POST',
       headers: {
