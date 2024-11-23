@@ -2,7 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
-import { registerClinic } from '../http/register'
+import {
+  type ErrorResponse,
+  registerClinic,
+  type RegisterRequest,
+} from '../http/register'
 import { Form } from '../components/form'
 import { Button } from '../components/button'
 import { BlobsDecoration } from '../components/blobsDecoration'
@@ -63,13 +67,58 @@ export function Register() {
   const [step, setStep] = useState(0)
   const navigate = useNavigate()
 
+  const isApiError = (error: unknown): error is ErrorResponse => {
+    return (
+      typeof error === 'object' &&
+      error !== null &&
+      'status' in error &&
+      'title' in error &&
+      'description' in error &&
+      'timestamp' in error
+    )
+  }
+
+  const fieldLabels: { [key: string]: string } = {
+    'clinic.name': 'RAZÃO SOCIAL',
+    'clinic.cnpj': 'CNPJ',
+    'clinic.phone': 'TELEFONE',
+    'manager.first_name': 'NOME',
+    'manager.last_name': 'SOBRENOME',
+    'manager.cpf': 'CPF',
+    'manager.email': 'EMAIL',
+    'manager.password': 'SENHA'
+  };
+
   const handleRegister = async (data: RegisterForm) => {
     try {
-      const responseData = await registerClinic(data)
-      console.log(responseData)
+      await registerClinic(data)
       navigate('/')
     } catch (err) {
-      console.log(err)
+      if (isApiError(err)) {
+        const fieldPath = err.description as keyof RegisterRequest
+        const label = fieldLabels[fieldPath] || fieldPath.split('.')[1].toUpperCase();
+
+        const stepWithError = sourceSteps.findIndex(step =>
+          step.fields.some(field => field.includes(fieldPath))
+        )
+
+        setStep(stepWithError)
+
+        methods.setError(
+          fieldPath,
+          {
+            type: 'manual',
+            message: `Um cadastro com esse ${label} já existe`,
+          },
+          { shouldFocus: true }
+        )
+      } else {
+        console.error('Unexpected error:', err)
+        methods.setError('root', {
+          type: 'manual',
+          message: 'Um erro inesperado ocorreu',
+        })
+      }
     }
   }
 

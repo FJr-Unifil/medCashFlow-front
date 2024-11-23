@@ -1,4 +1,4 @@
-interface RegisterRequest {
+export interface RegisterRequest {
   clinic: {
     name: string
     cnpj: string
@@ -13,9 +13,15 @@ interface RegisterRequest {
   }
 }
 
+export interface ErrorResponse {
+  status: number
+  title: string
+  description: string
+  timestamp: string
+}
+
 export async function registerClinic(registerRequest: RegisterRequest) {
   try {
-    console.log(registerRequest)
     const response = await fetch('http://localhost:8080/auth/register', {
       method: 'POST',
       headers: {
@@ -25,13 +31,26 @@ export async function registerClinic(registerRequest: RegisterRequest) {
     })
 
     if (!response.ok) {
-      throw new Error(`Error ${response.status} ${response.statusText}`)
+      const errorData: ErrorResponse = await response.json()
+      throw {
+        status: errorData.status,
+        title: errorData.title,
+        description: errorData.description,
+        timestamp: errorData.timestamp
+      } as ErrorResponse
     }
 
     const data = response.text()
     return data
   } catch (error) {
-    console.error('Register failed', error)
+    if (error instanceof Error) {
+      throw {
+        status: 500,
+        title: 'Network Error',
+        description: 'root',
+        timestamp: new Date().toISOString()
+      } as ErrorResponse
+    }
     throw error
   }
 }
