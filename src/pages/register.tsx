@@ -18,40 +18,31 @@ const registerForm = z.object({
       .min(1, 'Razão Social é obrigatório')
       .min(2, 'Mínimo de 2 caracteres')
       .max(60, 'A razão social não pode ter mais que 60 caracteres'),
-    cnpj: z.preprocess(
-      value => (typeof value === 'string' ? value : ''),
-      z
-        .string()
-        .min(1, 'CNPJ é obrigatório')
-        .transform(val => val.replace(/\D/g, ''))
-        .refine(val => val.length === 14, 'CNPJ incompleto')
-    ),
-    phone: z.preprocess(
-      value => (typeof value === 'string' ? value : ''),
-      z
-        .string()
-        .min(1, 'Telefone é obrigatório')
-        .transform(val => val.replace(/\D/g, ''))
-        .refine(val => val.length === 10, 'Telefone incompleto')
-    ),
+    cnpj: z
+      .string()
+      .min(1, 'CNPJ é obrigatório')
+      .transform(val => val.replace(/\D/g, ''))
+      .refine(val => val.length === 14, 'CNPJ incompleto'),
+    phone: z
+      .string()
+      .min(1, 'Telefone é obrigatório')
+      .transform(val => val.replace(/\D/g, ''))
+      .refine(val => val.length === 10, 'Telefone incompleto'),
   }),
   manager: z.object({
     first_name: z
       .string()
       .min(1, 'Nome é obrigatório')
-      .min(5, 'Mínimo de 5 caracteres'),
+      .max(50, 'Máximo de 50 caracteres'),
     last_name: z
       .string()
-      .min(1, 'Nome é obrigatório')
-      .min(5, 'Mínimo de 5 caracteres'),
-    cpf: z.preprocess(
-      value => (typeof value === 'string' ? value : ''),
-      z
-        .string()
-        .min(1, 'CPF é obrigatório')
-        .transform(val => val.replace(/\D/g, ''))
-        .refine(val => val.length === 11, 'CPF incompleto')
-    ),
+      .min(1, 'Sobrenome é obrigatório')
+      .max(50, 'Máximo de 50 caracteres'),
+    cpf: z
+      .string()
+      .min(1, 'CPF é obrigatório')
+      .transform(val => val.replace(/\D/g, ''))
+      .refine(val => val.length === 11, 'CPF incompleto'),
     email: z.string().min(1, 'Email é obrigatório').email('Email inválido'),
     password: z
       .string()
@@ -89,7 +80,11 @@ export function Register() {
     },
     {
       component: <SecondStep />,
-      fields: ['manager.first_name', 'manager.last_name', 'manager.cpf'] as const,
+      fields: [
+        'manager.first_name',
+        'manager.last_name',
+        'manager.cpf',
+      ] as const,
     },
     {
       component: <ThirdStep />,
