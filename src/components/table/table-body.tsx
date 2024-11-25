@@ -4,15 +4,13 @@ import { cnpjMask } from '../../utils/cnpjMask'
 import { phoneMask } from '../../utils/phoneMask'
 import { dateMask } from '../../utils/dateMask'
 import { Badge } from '../badge'
-import { useClinicQueries } from '../../hooks/useClinicQueries'
 
 interface TableBodyProps {
   clinics: ClinicResponse[]
+  toggleModal: (id: string, isActive: boolean) => void
 }
 
-export function TableBody({ clinics }: TableBodyProps) {
-
-  const { deleteClinicById, activateClinicById } = useClinicQueries()
+export function TableBody({ clinics, toggleModal }: TableBodyProps) {
 
   return (
     <tbody>
@@ -37,15 +35,13 @@ export function TableBody({ clinics }: TableBodyProps) {
             <Badge state={clinic.isActive} />
           </td>
           <td>
-            {clinic.isActive ? (
-              <button type="button" onClick={() => deleteClinicById(clinic.id)}>
-                <Trash className="text-red-700" />
-              </button>
-            ) : (
-              <button type="button" onClick={() => activateClinicById(clinic.id)}>
-                <RotateCcw className="text-blue-600" />
-              </button>
-            )}
+            <button
+              type="button"
+              className={clinic.isActive ? 'text-red-700' : 'text-blue-600'}
+              onClick={() => toggleModal(clinic.id, clinic.isActive)}
+            >
+              {clinic.isActive ? <Trash /> : <RotateCcw />}
+            </button>
           </td>
         </tr>
       ))}
