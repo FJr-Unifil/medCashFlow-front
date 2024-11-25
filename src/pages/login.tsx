@@ -102,7 +102,7 @@ export function Login() {
         </Button>
         <p className="text-sm -mt-6 text-center">
           Não possui conta?{' '}
-          <Link to="/register" className="underline text-green-700 font-bold">
+          <Link to="/auth/register" className="underline text-green-700 font-bold">
             Faça o cadastro
           </Link>
         </p>

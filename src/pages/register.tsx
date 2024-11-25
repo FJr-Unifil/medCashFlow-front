@@ -182,7 +182,7 @@ export function Register() {
           </Form.Actions>
           <p className="text-sm -mt-2 text-center">
             Já possui uma conta?{' '}
-            <Link to="/" className="underline text-green-700 font-bold">
+            <Link to="/auth/" className="underline text-green-700 font-bold">
               Faça o login
             </Link>
           </p>
