@@ -4,12 +4,16 @@ import { cnpjMask } from '../../utils/cnpjMask'
 import { phoneMask } from '../../utils/phoneMask'
 import { dateMask } from '../../utils/dateMask'
 import { Badge } from '../badge'
+import { useClinicQueries } from '../../hooks/useClinicQueries'
 
 interface TableBodyProps {
   clinics: ClinicResponse[]
 }
 
 export function TableBody({ clinics }: TableBodyProps) {
+
+  const { deleteClinicById, activateClinicById } = useClinicQueries()
+
   return (
     <tbody>
       {clinics.map(clinic => (
@@ -34,11 +38,11 @@ export function TableBody({ clinics }: TableBodyProps) {
           </td>
           <td>
             {clinic.isActive ? (
-              <button type="button">
+              <button type="button" onClick={() => deleteClinicById(clinic.id)}>
                 <Trash className="text-red-700" />
               </button>
             ) : (
-              <button type="button">
+              <button type="button" onClick={() => activateClinicById(clinic.id)}>
                 <RotateCcw className="text-blue-600" />
               </button>
             )}

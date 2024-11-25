@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
-import { getAllClinics } from '../http/get-all-clinics'
 import { Table } from '../components/table'
+import { useClinicQueries } from '../hooks/useClinicQueries'
 
 export interface ClinicResponse {
   id: string
@@ -12,33 +11,19 @@ export interface ClinicResponse {
 }
 
 export function AllClinicsAdmin() {
-  const [clinics, setClinics] = useState<ClinicResponse[]>([])
+  const { clinics } = useClinicQueries()
 
   const columnDictionary: { [key: string]: string } = {
-    name: "Razão Social",
-    cnpj: "CNPJ",
-    phone: "Telefone",
-    createdAt: "Data do Cadastro",
-    isActive: "Status"
-  };
-
-  useEffect(() => {
-    const getClinics = async () => {
-      try {
-        const response = await getAllClinics()
-        setClinics(response)
-        console.log(response)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-
-    getClinics()
-  }, [])
+    name: 'Razão Social',
+    cnpj: 'CNPJ',
+    phone: 'Telefone',
+    createdAt: 'Data do Cadastro',
+    isActive: 'Status',
+  }
 
   return (
-    <Table.Root title='Clínicas'>
-      <Table.Head columns={columnDictionary}/>
+    <Table.Root title="Clínicas">
+      <Table.Head columns={columnDictionary} />
       <Table.Body clinics={clinics} />
     </Table.Root>
   )
