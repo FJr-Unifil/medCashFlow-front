@@ -9,7 +9,7 @@ import { authenticate } from '../http/authenticate'
 import { textMask } from '../utils/textMask'
 import Input from '../components/input'
 import { emailMask } from '../utils/emailMask'
-import { BlobsDecoration } from '../components/blobsDecoration'
+import { BlobsDecoration } from '../components/blobs-decoration'
 import { Button } from '../components/button'
 import { useContext } from 'react'
 import { AuthContext } from '../context/auth-context'
@@ -34,7 +34,7 @@ export function Login() {
 
   const navigate = useNavigate()
 
-  const auth = useContext(AuthContext);
+  const auth = useContext(AuthContext)
 
   const handleLogin = async (credentials: LoginForm) => {
     try {
@@ -107,7 +107,10 @@ export function Login() {
         </Button>
         <p className="text-sm -mt-6 text-center">
           Não possui conta?{' '}
-          <Link to="/auth/register" className="underline text-green-700 font-bold">
+          <Link
+            to="/auth/register"
+            className="underline text-green-700 font-bold"
+          >
             Faça o cadastro
           </Link>
         </p>

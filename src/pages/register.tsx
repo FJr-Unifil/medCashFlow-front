@@ -9,7 +9,7 @@ import {
 } from '../http/register'
 import { Form } from '../components/form'
 import { Button } from '../components/button'
-import { BlobsDecoration } from '../components/blobsDecoration'
+import { BlobsDecoration } from '../components/blobs-decoration'
 import { useState } from 'react'
 import { FirstStep } from '../components/steps/first-step'
 import { SecondStep } from '../components/steps/second-step'
@@ -86,8 +86,8 @@ export function Register() {
     'manager.last_name': 'SOBRENOME',
     'manager.cpf': 'CPF',
     'manager.email': 'EMAIL',
-    'manager.password': 'SENHA'
-  };
+    'manager.password': 'SENHA',
+  }
 
   const handleRegister = async (data: RegisterForm) => {
     try {
@@ -96,7 +96,8 @@ export function Register() {
     } catch (err) {
       if (isApiError(err)) {
         const fieldPath = err.description as keyof RegisterRequest
-        const label = fieldLabels[fieldPath] || fieldPath.split('.')[1].toUpperCase();
+        const label =
+          fieldLabels[fieldPath] || fieldPath.split('.')[1].toUpperCase()
 
         const stepWithError = sourceSteps.findIndex(step =>
           step.fields.some(field => field.includes(fieldPath))
