@@ -1,36 +1,45 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import { getAllClinics } from '../http/get-all-clinics'
+import { Table } from '../components/table'
 
-interface ClinicResponse {
-  id: string,
-  name: string,
-  cnpj: string,
-  phone: string,
-  createdAt: string,
+export interface ClinicResponse {
+  id: string
+  name: string
+  cnpj: string
+  phone: string
+  createdAt: string
   isActive: boolean
 }
 
 export function AllClinicsAdmin() {
-  const [clinics, setClinics] = useState<ClinicResponse[]>([]);
+  const [clinics, setClinics] = useState<ClinicResponse[]>([])
+
+  const columnDictionary: { [key: string]: string } = {
+    name: "Razão Social",
+    cnpj: "CNPJ",
+    phone: "Telefone",
+    createdAt: "Data do Cadastro",
+    isActive: "Status"
+  };
 
   useEffect(() => {
     const getClinics = async () => {
       try {
-        const response = await getAllClinics();
-        setClinics(response);
+        const response = await getAllClinics()
+        setClinics(response)
         console.log(response)
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
-    };
+    }
 
-    getClinics();
-  }, []);
+    getClinics()
+  }, [])
 
   return (
-    <>
-      <h1>Clínicas</h1>
-      <span>{clinics.length}</span>
-    </>
+    <Table.Root title='Clínicas'>
+      <Table.Head columns={columnDictionary}/>
+      <Table.Body clinics={clinics} />
+    </Table.Root>
   )
 }
