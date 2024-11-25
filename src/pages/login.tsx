@@ -11,6 +11,8 @@ import Input from '../components/input'
 import { emailMask } from '../utils/emailMask'
 import { BlobsDecoration } from '../components/blobsDecoration'
 import { Button } from '../components/button'
+import { useContext } from 'react'
+import { AuthContext } from '../context/auth-context'
 
 const loginForm = z.object({
   email: z.string().min(1, 'Insira seu email').email('Insira um email válido'),
@@ -32,11 +34,14 @@ export function Login() {
 
   const navigate = useNavigate()
 
-  const handleLogin = async (data: LoginForm) => {
+  const auth = useContext(AuthContext);
+
+  const handleLogin = async (credentials: LoginForm) => {
     try {
-      const responseData = await authenticate(data)
-      console.log(responseData)
-      navigate('/success')
+      const response = await authenticate(credentials)
+      console.log(response)
+      auth?.login(response.token)
+      navigate('/clinics')
     } catch (err) {
       console.log(err)
       if (err instanceof Error) {
