@@ -118,6 +118,7 @@ export function InvolvedFormModal({
               state={errors.document ? 'error' : undefined}
               {...register('document')}
               maskFn={documentMask}
+              maxLength={14}
             />
           </Form.Item>
 
@@ -134,6 +135,7 @@ export function InvolvedFormModal({
               state={errors.phone ? 'error' : undefined}
               {...register('phone')}
               maskFn={phoneMask}
+              maxLength={11}
             />
           </Form.Item>
 
