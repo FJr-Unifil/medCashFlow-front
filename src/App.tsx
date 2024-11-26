@@ -7,6 +7,7 @@ import { AuthProvider } from './context/auth-context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Forbidden } from './pages/forbidden'
 import { NotFound } from './pages/not-found'
+import { AllEmployees } from './pages/allEmployees'
 
 const queryClient = new QueryClient()
 
@@ -26,8 +27,14 @@ function App() {
             >
               <Route index element={<AllClinicsAdmin />} />
             </Route>
-            <Route path="/" element={<Navigate to="/clinics" replace />} />
-            <Route path="/forbidden" element={<Forbidden />} />
+            <Route
+              path="employees"
+              element={<ProtectedRoute requiredRole="ROLE_MANAGER" />}
+            >
+              <Route index element={<AllEmployees />} />
+            </Route>
+            <Route element={<Navigate to="/clinics" replace />} />
+            <Route path="forbidden" element={<Forbidden />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

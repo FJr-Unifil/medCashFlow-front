@@ -29,7 +29,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem('token')
   )
-  const [userRoles, setUserRoles] = useState<string[]>([])
+  const [userRoles, setUserRoles] = useState<string[]>(() => {
+    const storedToken = localStorage.getItem('token')
+    if (storedToken) {
+      try {
+        const decoded = jwtDecode<JwtPayload>(storedToken)
+        return decoded.roles
+      } catch {
+        return []
+      }
+    }
+    return []
+  })
 
   const isTokenExpired = useCallback((token: string): boolean => {
     try {

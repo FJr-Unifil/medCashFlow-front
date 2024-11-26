@@ -5,6 +5,10 @@ import { Navigate, Outlet } from 'react-router-dom'
 export function ProtectedRoute({ requiredRole }: { requiredRole: string }) {
   const auth = useContext(AuthContext)
 
+  if (!auth) {
+    return <Navigate to="/auth" />
+  }
+
   if (!auth?.isAuthenticated) {
     return <Navigate to="/auth/" />
   }
