@@ -1,4 +1,4 @@
-import { Button } from './button'
+import { Button } from './../button'
 
 interface ConfirmationModalProps {
   title: string

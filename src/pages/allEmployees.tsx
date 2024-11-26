@@ -5,11 +5,11 @@ import { Table } from '../components/table'
 import { useEmployeeQueries } from '../hooks/useEmployeeQueries'
 import { cpfMask } from '../utils/cpfMask'
 import { useState } from 'react'
-import { ConfirmationModal } from '../components/confirmation-modal'
+import { ConfirmationModal } from '../components/modals/confirmation-modal'
 import {
   type EmployeeForm,
   EmployeeFormModal,
-} from '../components/employee-form-modal'
+} from '../components/modals/employee-form-modal'
 
 export interface EmployeeResponse {
   id: number

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Table } from '../components/table'
 import { useClinicQueries } from '../hooks/useClinicQueries'
-import { ConfirmationModal } from '../components/confirmation-modal'
+import { ConfirmationModal } from '../components/modals/confirmation-modal'
 import { cnpjMask } from '../utils/cnpjMask'
 import { phoneMask } from '../utils/phoneMask'
 import { dateMask } from '../utils/dateMask'

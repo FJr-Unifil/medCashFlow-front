@@ -1,15 +1,15 @@
 import { z } from 'zod'
-import { Button } from './button'
-import { Form } from './form'
+import { Button } from './../button'
+import { Form } from './../form'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Briefcase, IdCard, Lock, Mail, User } from 'lucide-react'
-import { Icon } from './icon'
-import Input from './input'
-import { textMask } from '../utils/textMask'
-import { cpfMask } from '../utils/cpfMask'
-import { emailMask } from '../utils/emailMask'
-import type { EmployeeResponse } from '../pages/allEmployees'
+import { Icon } from './../icon'
+import Input from './../input'
+import { textMask } from '../../utils/textMask'
+import { cpfMask } from '../../utils/cpfMask'
+import { emailMask } from '../../utils/emailMask'
+import type { EmployeeResponse } from '../../pages/allEmployees'
 
 const employeeForm = z.object({
   firstName: z
