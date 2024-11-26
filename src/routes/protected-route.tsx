@@ -1,13 +1,17 @@
-import { type ReactNode, useContext } from 'react';
-import { AuthContext } from '../context/auth-context';
-import { Navigate } from 'react-router-dom';
+import { useContext } from 'react'
+import { AuthContext } from '../context/auth-context'
+import { Navigate, Outlet } from 'react-router-dom'
 
-export function ProtectedRoute({ children }: { children: ReactNode }) {
-  const auth = useContext(AuthContext);
+export function ProtectedRoute({ requiredRole }: { requiredRole: string }) {
+  const auth = useContext(AuthContext)
 
   if (!auth?.isAuthenticated) {
-    return <Navigate to="/auth" replace />;
+    return <Navigate to="/login" />
   }
 
-  return children;
+  if (!auth.hasRole(requiredRole)) {
+    return <Navigate to="/forbidden" />
+  }
+
+  return <Outlet />
 }

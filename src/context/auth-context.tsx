@@ -1,38 +1,81 @@
-import { createContext, type ReactNode, useState } from "react";
+import { jwtDecode } from 'jwt-decode'
+import {
+  createContext,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 
-interface AuthContextType {
-  isAuthenticated: boolean;
-  token: string | null;
-  login: (token: string) => void;
-  logout: () => void;
+export interface JwtPayload {
+  sub: string
+  roles: string[]
+  exp: number
+  iss: string
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+interface AuthContextType {
+  isAuthenticated: boolean
+  token: string | null
+  userRoles: string[]
+  login: (token: string) => void
+  logout: () => void
+  hasRole: (requiredRole: string) => boolean
+}
+
+export const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem('token')
+  )
+  const [userRoles, setUserRoles] = useState<string[]>([])
 
-  const login = (newToken: string) => {
-    setToken(newToken);
-    localStorage.setItem('token', newToken);
-  };
+  const decodeToken = useCallback((token: string) => {
+    try {
+      const decoded = jwtDecode<JwtPayload>(token)
+      setUserRoles(decoded.roles)
+    } catch (error) {
+      setUserRoles([])
+    }
+  }, [])
 
-  const logout = () => {
-    setToken(null);
-    localStorage.removeItem('token');
-  };
+  const login = useCallback(
+    (newToken: string) => {
+      setToken(newToken)
+      localStorage.setItem('token', newToken)
+      decodeToken(newToken)
+    },
+    [decodeToken]
+  )
+
+  const logout = useCallback(() => {
+    setToken(null)
+    setUserRoles([])
+    localStorage.removeItem('token')
+  }, [])
+
+  const hasRole = useCallback(
+    (requiredRole: string): boolean => {
+      return userRoles.includes(requiredRole)
+    },
+    [userRoles]
+  )
+
+  useEffect(() => {
+    if (token) {
+      decodeToken(token)
+    }
+  }, [token, decodeToken])
 
   const value = {
     isAuthenticated: !!token,
     token,
+    userRoles,
     login,
-    logout
-  };
+    logout,
+    hasRole,
+  }
 
-
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

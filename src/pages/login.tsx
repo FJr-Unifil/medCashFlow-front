@@ -39,7 +39,6 @@ export function Login() {
   const handleLogin = async (credentials: LoginForm) => {
     try {
       const response = await authenticate(credentials)
-      console.log(response)
       auth?.login(response.token)
       navigate('/clinics')
     } catch (err) {

@@ -5,6 +5,7 @@ import { AllClinicsAdmin } from './pages/allClinicsAdmin'
 import { ProtectedRoute } from './routes/protected-route'
 import { AuthProvider } from './context/auth-context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Forbidden } from './pages/forbidden'
 
 const queryClient = new QueryClient()
 
@@ -20,13 +21,12 @@ function App() {
             </Route>
             <Route
               path="clinics"
-              element={
-                <ProtectedRoute>
-                  <AllClinicsAdmin />
-                </ProtectedRoute>
-              }
-            />
+              element={<ProtectedRoute requiredRole="ROLE_ADMIN" />}
+            >
+              <Route index element={<AllClinicsAdmin />} />
+            </Route>
             <Route path="/" element={<Navigate to="/clinics" replace />} />
+            <Route path="/forbidden" element={<Forbidden />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
