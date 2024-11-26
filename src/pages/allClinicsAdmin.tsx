@@ -2,6 +2,11 @@ import { useState } from 'react'
 import { Table } from '../components/table'
 import { useClinicQueries } from '../hooks/useClinicQueries'
 import { ConfirmationModal } from '../components/confirmation-modal'
+import { cnpjMask } from '../utils/cnpjMask'
+import { phoneMask } from '../utils/phoneMask'
+import { dateMask } from '../utils/dateMask'
+import { Badge } from '../components/badge'
+import { RotateCcw, Trash } from 'lucide-react'
 
 export interface ClinicResponse {
   id: string
@@ -33,11 +38,43 @@ export function AllClinicsAdmin() {
     isActive: 'Status',
   }
 
+  const renderClinicRow = (data: ClinicResponse) => (
+    <tr key={data.id} className="border-b border-gray-100">
+      <td className="py-4">
+        <div>
+          <p className="text-base mb-1">{data.name}</p>
+          <span className="text-[14px] italic">{data.id}</span>
+        </div>
+      </td>
+      <td className="py-4">
+        <p className="text-base">{cnpjMask(data.cnpj)}</p>
+      </td>
+      <td className="py-4">
+        <p className="text-base">{phoneMask(data.phone)}</p>
+      </td>
+      <td className="py-4">
+        <p className="text-base">{dateMask(data.createdAt)}</p>
+      </td>
+      <td className="py-4">
+        <Badge state={data.isActive} />
+      </td>
+      <td>
+        <button
+          type="button"
+          className={data.isActive ? 'text-red-700' : 'text-blue-600'}
+          onClick={() => toggleModal(data.id, data.isActive)}
+        >
+          {data.isActive ? <Trash /> : <RotateCcw />}
+        </button>
+      </td>
+    </tr>
+  )
+
   return (
-    <div className="pt-[120px] mx-auto text-center bg-gray-200 min-h-screen relative">
+    <div className="pt-[120px] pb-10 mx-auto text-center bg-gray-200 min-h-screen relative">
       <Table.Root title="Clínicas">
         <Table.Head columns={columnDictionary} />
-        <Table.Body clinics={clinics} toggleModal={toggleModal} />
+        <Table.Body dataList={clinics} renderRow={renderClinicRow} />
       </Table.Root>
       {isModalOpen && selectedClinicId !== null && isClinicActive !== null && (
         <ConfirmationModal

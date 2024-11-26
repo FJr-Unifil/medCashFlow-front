@@ -1,8 +1,9 @@
-export async function getAllClinics() {
+export async function deleteEmployeeById(id: number) {
   try {
     const token = localStorage.getItem('token')
 
-    const response = await fetch('http://localhost:8080/clinics/list', {
+    const response = await fetch(`http://localhost:8080/employees/delete/${id}`, {
+      method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -12,8 +13,7 @@ export async function getAllClinics() {
       throw new Error(`Error ${response.status} ${response.statusText}`)
     }
 
-    const data = await response.json()
-    return data
+    return response
   } catch (error) {
     console.error('Request failed', error)
     throw error

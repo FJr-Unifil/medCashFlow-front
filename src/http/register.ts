@@ -40,7 +40,7 @@ export async function registerClinic(registerRequest: RegisterRequest) {
       } as ErrorResponse
     }
 
-    const data = response.text()
+    const data = response.json()
     return data
   } catch (error) {
     if (error instanceof Error) {

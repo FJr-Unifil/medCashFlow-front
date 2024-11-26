@@ -1,8 +1,8 @@
-export async function getAllClinics() {
+export async function getAllEmployees() {
   try {
     const token = localStorage.getItem('token')
 
-    const response = await fetch('http://localhost:8080/clinics/list', {
+    const response = await fetch('http://localhost:8080/employees/list', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
