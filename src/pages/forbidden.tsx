@@ -27,7 +27,7 @@ export function Forbidden() {
           >
             Fazer Login em Outra Conta
           </Button>
-          <Button type="button" onClick={() => navigate(-1)}>
+          <Button type="button" onClick={() => navigate(-3)}>
             Voltar Para A Página Anterior
           </Button>
         </div>
