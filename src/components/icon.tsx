@@ -1,4 +1,5 @@
 import type { ElementType } from 'react'
+import { twMerge } from 'tailwind-merge'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 const icon = tv({
@@ -23,8 +24,9 @@ const icon = tv({
 
 interface IconProps extends VariantProps<typeof icon> {
   icon: ElementType
+  className?: string
 }
 
-export function Icon({ icon: Icon, size, state, ...props }: IconProps) {
-  return <Icon className={icon({ size, state })} {...props} />
+export function Icon({ icon: Icon, size, state, className, ...props }: IconProps) {
+  return <Icon className={twMerge(icon({ size, state }), className)} {...props} />
 }
