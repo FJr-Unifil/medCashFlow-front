@@ -8,7 +8,7 @@ const button = tv({
       filled: 'bg-green-600 text-gray-100 hover:bg-green-700',
       outline:
         'bg-transparent text-gray-900 border border-gray-900 hover:bg-gray-100',
-      link: 'bg-transparent text-gray-900 hover:bg-gray-100',
+      link: 'bg-transparent text-gray-900 hover:underline',
     },
   },
   defaultVariants: {
