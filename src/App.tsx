@@ -6,6 +6,7 @@ import { ProtectedRoute } from './routes/protected-route'
 import { AuthProvider } from './context/auth-context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Forbidden } from './pages/forbidden'
+import { NotFound } from './pages/not-found'
 
 const queryClient = new QueryClient()
 
@@ -27,6 +28,7 @@ function App() {
             </Route>
             <Route path="/" element={<Navigate to="/clinics" replace />} />
             <Route path="/forbidden" element={<Forbidden />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
