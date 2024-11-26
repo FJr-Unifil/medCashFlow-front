@@ -31,6 +31,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
   const [userRoles, setUserRoles] = useState<string[]>([])
 
+  const isTokenExpired = useCallback((token: string): boolean => {
+    try {
+      const decoded = jwtDecode<JwtPayload>(token)
+      return decoded.exp * 1000 < Date.now()
+    } catch {
+      return true
+    }
+  }, [])
+
   const decodeToken = useCallback((token: string) => {
     try {
       const decoded = jwtDecode<JwtPayload>(token)
@@ -69,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [token, decodeToken])
 
   const value = {
-    isAuthenticated: !!token,
+    isAuthenticated: !!token && !isTokenExpired(token),
     token,
     userRoles,
     login,

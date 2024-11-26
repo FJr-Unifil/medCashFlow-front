@@ -6,7 +6,7 @@ export function ProtectedRoute({ requiredRole }: { requiredRole: string }) {
   const auth = useContext(AuthContext)
 
   if (!auth?.isAuthenticated) {
-    return <Navigate to="/login" />
+    return <Navigate to="/auth/" />
   }
 
   if (!auth.hasRole(requiredRole)) {
