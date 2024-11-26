@@ -24,10 +24,11 @@ export function Forbidden() {
             type="button"
             styling="link"
             onClick={() => navigate('/auth')}
+            className='hover:text-[#6B63FF]'
           >
             Fazer Login em Outra Conta
           </Button>
-          <Button type="button" onClick={() => navigate(-3)}>
+          <Button type="button" onClick={() => navigate(-3)} className='bg-[#6B63FF] hover:bg-purple-700'>
             Voltar Para A Página Anterior
           </Button>
         </div>

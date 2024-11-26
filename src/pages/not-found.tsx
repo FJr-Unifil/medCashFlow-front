@@ -20,7 +20,7 @@ export function NotFound() {
           Essa rota que você tentou acessar não existe. Tente novamente
         </p>
         <div className="flex items-center justify-center gap-4">
-          <Button type="button" onClick={() => navigate(-1)}>
+          <Button type="button" onClick={() => navigate(-1)} className='bg-[#6B63FF] hover:bg-purple-700'>
             Voltar Para A Página Anterior
           </Button>
         </div>
