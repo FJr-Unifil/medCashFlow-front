@@ -31,7 +31,7 @@ const registerForm = z.object({
       .string()
       .min(1, 'Telefone é obrigatório')
       .transform(val => val.replace(/\D/g, ''))
-      .refine(val => val.length === 10, 'Telefone incompleto'),
+      .refine(val => val.length === 10, 'Telefone Incorreto. Exemplo de telefone correto: (43) 4002-8922'),
   }),
   manager: z.object({
     first_name: z

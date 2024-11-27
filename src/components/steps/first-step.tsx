@@ -69,7 +69,7 @@ export const FirstStep = () => {
           state={errors.clinic?.phone ? 'error' : undefined}
           {...register('clinic.phone')}
           maskFn={phoneMask}
-          maxLength={14}
+          maxLength={16}
         />
       </Form.Item>
     </Form.Group>
