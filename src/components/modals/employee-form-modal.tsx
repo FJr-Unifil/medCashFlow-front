@@ -133,7 +133,7 @@ export function EmployeeFormModal({
               state={errors.cpf ? 'error' : undefined}
               {...register('cpf')}
               maskFn={cpfMask}
-              maxLength={11}
+              maxLength={14}
             />
           </Form.Item>
 

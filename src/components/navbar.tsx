@@ -25,7 +25,7 @@ export function Navbar() {
           funcionários
         </Link>
         <Link
-          to="/involved"
+          to="/involveds"
           className={`uppercase font-medium text-xl transition-colors ${isActive('/involved')}`}
         >
           envolvidos

@@ -40,7 +40,7 @@ export function Login() {
     try {
       const response = await authenticate(credentials)
       auth?.login(response.token)
-      navigate('/clinics')
+      navigate('/')
     } catch (err) {
       console.log(err)
       if (err instanceof Error) {
