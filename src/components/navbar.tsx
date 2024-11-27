@@ -8,7 +8,7 @@ export function Navbar() {
   const isActive = (path: string) => {
     return location.pathname === path
       ? 'text-blue-600'
-      : 'text-gray-900 hover:text-blue-600'
+      : 'font-bold hover:text-blue-600'
   }
 
   return (
