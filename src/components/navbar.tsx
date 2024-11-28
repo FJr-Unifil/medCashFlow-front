@@ -6,9 +6,7 @@ export function Navbar() {
   const location = useLocation()
 
   const isActive = (path: string) => {
-    return location.pathname === path
-      ? 'text-blue-600'
-      : 'font-bold hover:text-blue-600'
+    return location.pathname === path && 'font-bold'
   }
 
   return (
@@ -20,17 +18,20 @@ export function Navbar() {
       <div className="flex gap-5">
         <Link
           to="/funcionarios"
-          className={`uppercase font-medium text-xl transition-colors ${isActive('/funcionarios')}`}
+          className={`uppercase text-xl transition-colors ${isActive('/funcionarios')} hover:text-blue-600`}
         >
           funcionários
         </Link>
         <Link
           to="/envolvidos"
-          className={`uppercase font-medium text-xl transition-colors ${isActive('/envolvidos')}`}
+          className={`uppercase text-xl transition-colors ${isActive('/envolvidos')} hover:text-blue-600`}
         >
           envolvidos
         </Link>
-        <Link to="/plano-de-contas" className={`uppercase font-medium text-xl transition-colors ${isActive('/plano-de-contas')}`}>
+        <Link
+          to="/plano-de-contas"
+          className={`uppercase text-xl transition-colors ${isActive('/plano-de-contas')} hover:text-blue-600`}
+        >
           plano de contas
         </Link>
       </div>
