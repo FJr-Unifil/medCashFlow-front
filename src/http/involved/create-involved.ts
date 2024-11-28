@@ -1,4 +1,4 @@
-import type { InvolvedForm } from "../components/modals/involved-form-modal"
+import type { InvolvedForm } from "../../components/modals/involved-form-modal"
 
 export async function createInvolved(data: InvolvedForm) {
   try {

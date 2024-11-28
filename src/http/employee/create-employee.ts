@@ -1,4 +1,4 @@
-import type { EmployeeForm } from "../components/employee-form-modal";
+import type { EmployeeForm } from "../../components/modals/employee-form-modal";
 
 export async function createEmployee(employeeRequest: EmployeeForm) {
   try {

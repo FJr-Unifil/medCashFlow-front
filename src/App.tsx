@@ -10,6 +10,7 @@ import { NotFound } from './pages/not-found'
 import { AllEmployees } from './pages/allEmployees'
 import { AllInvolved } from './pages/allInvolved'
 import { RootRedirect } from './components/root-redirect'
+import { AllAccountPlannings } from './pages/allAccountPlannings'
 
 const queryClient = new QueryClient()
 
@@ -39,12 +40,18 @@ function App() {
             <Route
               path="envolvidos"
               element={
-                <ProtectedRoute
-                  requiredRole={'ROLE_FINANCIAL_ANALYST'}
-                />
+                <ProtectedRoute requiredRole={'ROLE_FINANCIAL_ANALYST'} />
               }
             >
               <Route index element={<AllInvolved />} />
+            </Route>
+            <Route
+              path="plano-de-contas"
+              element={
+                <ProtectedRoute requiredRole={'ROLE_FINANCIAL_ANALYST'} />
+              }
+            >
+              <Route index element={<AllAccountPlannings />} />
             </Route>
             <Route path="forbidden" element={<Forbidden />} />
             <Route path="*" element={<NotFound />} />
@@ -54,6 +61,5 @@ function App() {
     </QueryClientProvider>
   )
 }
-
 
 export default App
