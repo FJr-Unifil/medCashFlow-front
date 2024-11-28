@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { getAllEmployees } from '../http/get-all-employees'
-import { deleteEmployeeById } from '../http/delete-employee-by-id'
-import { activateEmployeeById } from '../http/activate-employee-by-id'
-import { createEmployee } from '../http/create-employee'
-import { updateEmployeeById } from '../http/update-employee-by-id'
+import { getAllEmployees } from '../http/employee/get-all-employees'
+import { deleteEmployeeById } from '../http/employee/delete-employee-by-id'
+import { activateEmployeeById } from '../http/employee/activate-employee-by-id'
+import { createEmployee } from '../http/employee/create-employee'
+import { updateEmployeeById } from '../http/employee/update-employee-by-id'
 
 export function useEmployeeQueries() {
   const queryClient = useQueryClient()

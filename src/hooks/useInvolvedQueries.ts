@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { getAllInvolved } from '../http/get-all-involved'
-import { deleteInvolvedById } from '../http/delete-involved-by-id'
-import { activateInvolvedById } from '../http/activate-involved-by-id'
-import { createInvolved } from '../http/create-involved'
-import { updateInvolvedById } from '../http/update-involved-by-id'
+import { getAllInvolved } from '../http/involved/get-all-involved'
+import { deleteInvolvedById } from '../http/involved/delete-involved-by-id'
+import { activateInvolvedById } from '../http/involved/activate-involved-by-id'
+import { createInvolved } from '../http/involved/create-involved'
+import { updateInvolvedById } from '../http/involved/update-involved-by-id'
 
 export function useInvolvedQueries() {
   const queryClient = useQueryClient()

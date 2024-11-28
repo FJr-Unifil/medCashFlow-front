@@ -6,7 +6,7 @@ import {
   type ErrorResponse,
   registerClinic,
   type RegisterRequest,
-} from '../http/register'
+} from '../http/auth/register'
 import { Form } from '../components/form'
 import { Button } from '../components/button'
 import { BlobsDecoration } from '../components/blobs-decoration'
