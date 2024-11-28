@@ -9,15 +9,15 @@ export function RootRedirect() {
   }
 
   if (hasRole('ROLE_ADMIN')) {
-    return <Navigate to="/clinics" replace />
+    return <Navigate to="/clinicas" replace />
   }
 
   if (hasRole('ROLE_MANAGER')) {
-    return <Navigate to="/employees" replace />
+    return <Navigate to="/funcionarios" replace />
   }
 
   if (hasRole('ROLE_FINANCIAL_ANALYST')) {
-    return <Navigate to="/involveds" replace />
+    return <Navigate to="/envolvidos" replace />
   }
 
   return <Navigate to="/auth" replace />

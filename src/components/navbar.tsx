@@ -19,16 +19,19 @@ export function Navbar() {
       </div>
       <div className="flex gap-5">
         <Link
-          to="/employees"
-          className={`uppercase font-medium text-xl transition-colors ${isActive('/employees')}`}
+          to="/funcionarios"
+          className={`uppercase font-medium text-xl transition-colors ${isActive('/funcionarios')}`}
         >
           funcionários
         </Link>
         <Link
-          to="/involveds"
-          className={`uppercase font-medium text-xl transition-colors ${isActive('/involved')}`}
+          to="/envolvidos"
+          className={`uppercase font-medium text-xl transition-colors ${isActive('/envolvidos')}`}
         >
           envolvidos
+        </Link>
+        <Link to="/plano-de-contas" className={`uppercase font-medium text-xl transition-colors ${isActive('/plano-de-contas')}`}>
+          plano de contas
         </Link>
       </div>
     </div>

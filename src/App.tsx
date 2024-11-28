@@ -22,22 +22,22 @@ function App() {
             <Route path="/" element={<RootRedirect />} />
             <Route path="auth">
               <Route index element={<Login />} />
-              <Route path="register" element={<Register />} />
+              <Route path="registro" element={<Register />} />
             </Route>
             <Route
-              path="clinics"
+              path="clinicas"
               element={<ProtectedRoute requiredRole="ROLE_ADMIN" />}
             >
               <Route index element={<AllClinicsAdmin />} />
             </Route>
             <Route
-              path="employees"
+              path="funcionarios"
               element={<ProtectedRoute requiredRole="ROLE_MANAGER" />}
             >
               <Route index element={<AllEmployees />} />
             </Route>
             <Route
-              path="involveds"
+              path="envolvidos"
               element={
                 <ProtectedRoute
                   requiredRole={'ROLE_FINANCIAL_ANALYST'}

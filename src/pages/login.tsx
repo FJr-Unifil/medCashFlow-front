@@ -107,7 +107,7 @@ export function Login() {
         <p className="text-sm -mt-6 text-center">
           Não possui conta?{' '}
           <Link
-            to="/auth/register"
+            to="/auth/registro"
             className="underline text-green-700 font-bold"
           >
             Faça o cadastro

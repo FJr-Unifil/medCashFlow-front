@@ -28,7 +28,10 @@ const involvedForm = z.object({
     .string()
     .min(1, 'Telefone é obrigatório')
     .transform(val => val.replace(/\D/g, ''))
-    .refine(val => val.length === 11, 'Telefone incompleto'),
+    .refine(
+      val => val.length === 10 || val.length === 11,
+      'Telefone incompleto'
+    ),
   email: z.string().min(1, 'Email é obrigatório').email('Email inválido'),
 })
 
